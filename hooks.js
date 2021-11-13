@@ -24,3 +24,105 @@ const UseStateBasics = () => {
 }
 
 export default UseStateBasics
+
+
+// UseState Array
+
+import React from 'react'
+import { data } from '../../../data'
+
+const UseStateArray = () => {
+  const [people, setPeople] = React.useState(data)
+  const remover = (id) => {
+    const newPeople = people.filter((person) => person.id !== id)
+    setPeople(newPeople)
+  }
+  return (
+    <>
+      <h2>useState array example</h2>
+      {people.map((person) => {
+        const { id, name } = person
+        return (
+          <div className='item' key={id}>
+            <h3>{name}</h3>
+            <button className='btn' onClick={() => remover(id)}>
+              remove
+            </button>
+          </div>
+        )
+      })}
+      <button className='btn' onClick={() => setPeople([])}>
+        remove items
+      </button>
+    </>
+  )
+}
+
+export default UseStateArray
+
+
+//useState object
+
+import React, { useState } from 'react'
+
+const UseStateObject = () => {
+  const [people, setPeople] = useState({
+    name: 'akram',
+    age: 21,
+  })
+  const changer = () => {
+    setPeople({ ...people, age: 200 })
+  }
+  return (
+    <>
+      <p>{people.name}</p>
+      <p>{people.age}</p>
+      <button className='btn' onClick={changer}>
+        change age
+      </button>
+    </>
+  )
+}
+
+export default UseStateObject
+
+//useState functional update
+
+import React, { useState } from 'react'
+
+const UseStateCounter = () => {
+  const [value, setValue] = useState(0)
+  const increase = () => {
+    setValue((oldValue) => oldValue + 1)
+  }
+  const decrease = () => {
+    setValue((oldValue) => {
+      if (oldValue === 0) {
+        return 0
+      } else {
+        return oldValue - 1
+      }
+    })
+  }
+  const reset = () => {
+    setValue((oldValue) => (oldValue = 0))
+  }
+
+  return (
+    <>
+      <h1>Counter:{value}</h1>
+      <button className='btn' onClick={increase}>
+        Increase
+      </button>
+      <button className='btn' onClick={reset}>
+        Reset
+      </button>
+      <button className='btn' onClick={decrease}>
+        Decrease
+      </button>
+    </>
+  )
+}
+
+export default UseStateCounter
+
