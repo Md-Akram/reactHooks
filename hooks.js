@@ -187,3 +187,107 @@ const UseEffectCleanup = () => {
 }
 
 export default UseEffectCleanup
+
+
+//useEffect Data fetching
+
+
+import React, { useState, useEffect } from 'react'
+
+const url = 'https://api.github.com/users'
+
+const UseEffectFetchData = () => {
+  const [users, setUsers] = useState([])
+
+  async function getUser() {
+    const response = await fetch(url)
+    const data = await response.json()
+    setUsers(data)
+    console.log(data)
+  }
+
+  useEffect(() => {
+    getUser()
+  }, [])
+
+  return (
+    <>
+      <h3> fetching</h3>
+      <ul className='users'>
+        {users.map((user) => {
+          const { avatar_url, html_url, id, login } = user
+          return (
+            <li key={id}>
+              <img src={avatar_url} alt={login} />
+              <div>
+                <h3>{login}</h3>
+                <a href={html_url}>Profile</a>
+              </div>
+            </li>
+          )
+        })}
+      </ul>
+    </>
+  )
+}
+
+export default UseEffectFetchData
+
+
+// Conditional rendering
+
+import React, { useState, useEffect } from 'react'
+const url = 'https://api.github.com/users/QuincyLarson'
+const MultipleReturns = () => {
+  const [isLoading, setIsLoading] = useState(false)
+  const [isError, setIsError] = useState(false)
+  const [user, setUser] = useState('default user')
+
+  async function getUser() {
+    const response = await fetch(url)
+    const data = await response.json()
+    if (response.status >= 200 && response.status <= 299) {
+      const { name } = data
+      setIsLoading(false)
+      setUser(name)
+    } else {
+      setIsLoading(false)
+      setIsError(true)
+    }
+  }
+
+  useEffect(() => {
+    setIsLoading(true)
+    getUser()
+  }, [])
+
+  if (isLoading) {
+    return <h2>Loading...</h2>
+  } else if (isError) {
+    return <h2>Error...</h2>
+  } else {
+    return <h2>{user}</h2>
+  }
+}
+
+export default MultipleReturns
+
+
+// Short circuit
+
+import React, { useState } from 'react'
+// short-circuit evaluation
+// ternary operator
+
+const ShortCircuit = () => {
+  const [text, setText] = useState('')
+
+  return (
+    <div>
+      <h2>{text || 'akram'}</h2>
+      {!text && <h2>akib</h2>}
+    </div>
+  )
+}
+
+export default ShortCircuit
