@@ -294,7 +294,6 @@ export default ShortCircuit
 
 
 // form
-
 import React, { useState } from 'react'
 // JS
 // const input = document.getElementById('myText');
@@ -308,7 +307,11 @@ const ControlledInputs = () => {
   const [person, setPerson] = useState([])
   const handleClick = (e) => {
     e.preventDefault()
-    console.log(e)
+    const newPerson = { firstName, email, id: Date.now().toString() }
+    setPerson([...person, newPerson])
+    setFirstName('')
+    setEmail('')
+    console.log()
   }
 
   return (
@@ -339,6 +342,17 @@ const ControlledInputs = () => {
             </div>
             <button onClick={handleClick}>Add Person</button>
           </form>
+        </div>
+        <div>
+          {person.map((people) => {
+            const { firstName, email, id } = people
+            return (
+              <div key={id}>
+                <h4>{firstName}</h4>
+                <p>{email}</p>
+              </div>
+            )
+          })}
         </div>
       </article>
     </>
